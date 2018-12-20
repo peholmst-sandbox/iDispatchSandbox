@@ -1,0 +1,217 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/app-localize-behavior/app-localize-behavior.html">
+
+<dom-module id="application-header">
+    <template>
+        <style include="lumo-typography">
+            .header {
+                background: black linear-gradient(to right, rgba(3, 79, 132, 1.0), rgba(3, 79, 132, 0.5));
+                color: rgba(255, 255, 255, 1.0);
+                font-family: var(--lumo-font-family);
+                display: flex;
+                height: 60px;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 10px;
+            }
+
+            .header .app-title {
+                font-size: 25px;
+                text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+                font-weight: 400;
+            }
+
+            .header .app-title span {
+                font-weight: 100;
+            }
+
+            .header .statistics {
+                display: flex;
+                align-items: center;
+            }
+
+            .header .statistics h3 {
+                text-transform: uppercase;
+                font-size: 15px;
+                font-weight: 400;
+                text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+                margin: 0 10px;
+            }
+
+            .header .statistics .item {
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+                font-weight: 100;
+                margin: 0 10px;
+            }
+
+            .header .statistics .item span {
+                display: inline-block;
+                font-weight: 500;
+                border-radius: 50%;
+                padding: 3px;
+                min-width: 20px;
+                line-height: 20px;
+                margin-right: 5px;
+                text-align: center;
+            }
+
+            .header .statistics .item.warning span {
+                background-color: rgba(255, 165, 0, 1.0);
+            }
+
+            .header .statistics .item.info span {
+                background-color: rgba(128, 128, 128, 1.0);
+            }
+
+            .header .statistics .item.flash span {
+                animation-name: flash-animation;
+                animation-duration: 0.3s;
+                animation-iteration-count: 2;
+            }
+
+            .header .clock {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                line-height: normal;
+            }
+
+            .header .clock .date {
+                font-size: 12px;
+                font-weight: 100;
+            }
+
+            .header .clock .time {
+                font-size: 20px;
+                font-weight: 400;
+            }
+
+            .header .avatar {
+                border-radius: 50%;
+                height: 40px;
+                width: 40px;
+            }
+
+            @keyframes flash-animation {
+                from {
+                    background: rgb(255, 255, 0);
+                }
+                to {
+                    background: default;
+                }
+            }
+        </style>
+
+        <div class="header">
+            <div class="app-title">iDispatch Workstation <span>({{localize('monitor', 'number', monitorNumber)}})</span>
+            </div>
+            <div class="statistics">
+                <h3>{{localize('assignments')}}</h3>
+                <div class="item" id="assignmentsInProgress">
+                    <span>[[assignmentsInProgress]]</span>
+                    {{localize('in-progress')}}
+                </div>
+                <div class="item info" id="assignmentsOnHold">
+                    <span>[[assignmentsOnHold]]</span>
+                    {{localize('on-hold')}}
+                </div>
+                <div class="item warning" id="assignmentsWaitingForDispatch">
+                    <span>[[assignmentsWaitingForDispatch]]</span>
+                    {{localize('waiting-for-dispatch')}}
+                </div>
+            </div>
+            <div class="clock">
+                <span class="date">[[_formatDate(_currentDate)]]</span>
+                <span class="time">[[_formatTime(_currentDate)]]</span>
+            </div>
+            <img class="avatar" src="[[avatarUri]]"/>
+        </div>
+    </template>
+
+    <script>
+        class ApplicationHeader extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+            static get is() {
+                return 'application-header'
+            }
+
+            static get properties() {
+                return {
+                    language: {
+                        value: 'sv'
+                    },
+                    monitorNumber: {
+                        value: 0
+                    },
+                    assignmentsInProgress: {
+                        value: 0,
+                        observer(newValue, oldValue) {
+                            if (newValue !== oldValue) {
+                                this._flash(this.$.assignmentsInProgress);
+                            }
+                        }
+                    },
+                    assignmentsOnHold: {
+                        value: 0,
+                        observer(newValue, oldValue) {
+                            if (newValue !== oldValue) {
+                                this._flash(this.$.assignmentsOnHold);
+                            }
+                        }
+                    },
+                    assignmentsWaitingForDispatch: {
+                        value: 0,
+                        observer(newValue, oldValue) {
+                            if (newValue !== oldValue) {
+                                this._flash(this.$.assignmentsWaitingForDispatch);
+                            }
+                        }
+                    },
+                    _currentDate: {
+                        type: Date,
+                        readOnly: true,
+                    }
+                }
+            }
+
+            ready() {
+                super.ready();
+                this._updateCurrentDate();
+                setInterval(this._updateCurrentDate.bind(this), 250);
+            }
+
+            attached() {
+                this.loadResources(this.resolveUrl("locales.json"));
+            }
+
+            _updateCurrentDate() {
+                this._set_currentDate(new Date());
+            }
+
+            _formatDate(date) {
+                return date.toLocaleDateString(this.language, {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+            }
+
+            _formatTime(date) {
+                return date.toLocaleTimeString(this.language, {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                });
+            }
+
+            _flash(element) {
+                element.classList.add("flash");
+                setTimeout(() => element.classList.remove("flash"), 500);
+            }
+        }
+
+        customElements.define(ApplicationHeader.is, ApplicationHeader);
+    </script>
+</dom-module>

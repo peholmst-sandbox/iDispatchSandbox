@@ -1,0 +1,16 @@
+{
+  "sv": {
+    "monitor": "skärm {number}",
+    "assignments": "Uppdrag",
+    "in-progress": "pågående",
+    "on-hold": "väntar på fortsatta åtgärder",
+    "waiting-for-dispatch": "väntar på larm"
+  },
+  "fi": {
+    "monitor": "näyttö {number}",
+    "assignments": "Tehtäviä",
+    "in-progress": "käynnissä",
+    "on-hold": "odottaa jatkotoimenpiteitä",
+    "waiting-for-dispatch": "odottaa hälytystä"
+  }
+}
