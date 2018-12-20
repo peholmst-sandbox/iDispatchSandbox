@@ -1,0 +1,30 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../components/application-header/application-header.html">
+
+<dom-module id="primary-monitor">
+    <template>
+        <style include="lumo-color">
+            :host {
+                height: 100vh;
+            }
+
+            .container {
+                display: flex;
+                height: calc(100vh - 60px); /* Header is 60 px high */
+            }
+        </style>
+        <application-header id="header" monitor-number="1"></application-header>
+        <div class="container">
+        </div>
+    </template>
+
+    <script>
+        class PrimaryMonitor extends Polymer.Element {
+            static get is() {
+                return 'primary-monitor';
+            }
+        }
+
+        customElements.define(PrimaryMonitor.is, PrimaryMonitor);
+    </script>
+</dom-module>
