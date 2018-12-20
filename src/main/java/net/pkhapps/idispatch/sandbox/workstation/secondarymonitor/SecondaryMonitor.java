@@ -3,6 +3,7 @@ package net.pkhapps.idispatch.sandbox.workstation.secondarymonitor;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -14,6 +15,7 @@ import net.pkhapps.idispatch.sandbox.workstation.components.Accordion;
 @PageTitle("iDispatch Workstation Monitor #2")
 @Tag("secondary-monitor")
 @HtmlImport("frontend://src/monitors/secondary/secondary-monitor.html")
+@Push
 public class SecondaryMonitor extends AbstractMonitor<TemplateModel> {
 
     @Id("sidebar")
