@@ -1,0 +1,90 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/vaadin-icons/vaadin-icons.html">
+
+<dom-module id="accordion-item">
+    <template>
+        <style include="lumo-color">
+            :host {
+                display: flex;
+                flex-direction: column;
+            }
+
+            :host(.expanded) {
+                flex-grow: 1;
+            }
+
+            .accordion-item-caption {
+                display: flex;
+                flex-shrink: 0;
+                justify-content: space-between;
+                align-items: center;
+
+                font-size: 20px;
+                font-weight: 300;
+                color: var(--lumo-header-text-color);
+
+                background-color: var(--lumo-shade-5pct);
+
+                padding: 0 10px;
+                margin: 0;
+                min-height: 40px;
+
+                cursor: pointer;
+            }
+
+            :host(.expanded) .accordion-item-caption {
+                min-height: 39px;
+                border-bottom: 1px solid var(--lumo-shade-20pct);
+            }
+
+            .accordion-item-content {
+                display: none;
+            }
+
+            :host(.expanded) .accordion-item-content {
+                display: flex;
+                flex-grow: 1;
+            }
+        </style>
+        <div class="accordion-item-caption" on-click="handleCaptionClick">[[caption]]
+            <iron-icon icon="[[_captionIcon]]"></iron-icon>
+        </div>
+        <div class="accordion-item-content">
+            <slot></slot>
+        </div>
+    </template>
+
+    <script>
+        class AccordionItem extends Polymer.Element {
+            static get is() {
+                return 'accordion-item';
+            }
+
+            static get properties() {
+                return {
+                    caption: {
+                        type: String
+                    },
+                    _captionIcon: {
+                        type: String
+                    },
+                    expanded: {
+                        type: Boolean,
+                        value: false,
+                        reflectToAttribute: true,
+                        observer(newValue, oldValue) {
+                            this.classList.toggle("expanded", newValue);
+                            this._captionIcon = newValue ? 'vaadin:angle-down' : 'vaadin:angle-up';
+                        }
+                    }
+                }
+            }
+
+            handleCaptionClick(event) {
+                this.dispatchEvent(new CustomEvent('caption-click'));
+            }
+        }
+
+        customElements.define(AccordionItem.is, AccordionItem);
+    </script>
+</dom-module>

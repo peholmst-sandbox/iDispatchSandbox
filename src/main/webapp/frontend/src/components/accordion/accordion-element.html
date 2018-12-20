@@ -1,0 +1,32 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/polymer/lib/utils/flattened-nodes-observer.html">
+
+<dom-module id="accordion-element">
+    <template>
+        <style include="lumo-color">
+            :host {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #itemsSlot::slotted(:first-child) {
+                border-top: none;
+            }
+
+            #itemsSlot::slotted(*) {
+                border-top: 1px solid var(--lumo-shade-20pct);
+            }
+        </style>
+        <slot id="itemsSlot"></slot>
+    </template>
+
+    <script>
+        class AccordionElement extends Polymer.Element {
+            static get is() {
+                return 'accordion-element';
+            }
+        }
+
+        customElements.define(AccordionElement.is, AccordionElement);
+    </script>
+</dom-module>
