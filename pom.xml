@@ -14,6 +14,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vaadin.version>12.0.3</vaadin.version>
+        <appmodel4flow.version>1.1.0-SNAPSHOT</appmodel4flow.version>
         <jetty.version>9.4.14.v20181114</jetty.version>
     </properties>
 
@@ -37,6 +38,11 @@
             <groupId>org.webjars.bowergithub.polymerelements</groupId>
             <artifactId>app-localize-behavior</artifactId>
             <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.pkhapps.appmodel4flow</groupId>
+            <artifactId>appmodel4flow</artifactId>
+            <version>${appmodel4flow.version}</version>
         </dependency>
     </dependencies>
 
