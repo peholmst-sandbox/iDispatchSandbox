@@ -1,0 +1,46 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../components/application-header/application-header.html">
+<link rel="import" href="../../components/accordion/accordion-element.html">
+<link rel="import" href="../../components/accordion/accordion-item.html">
+
+<dom-module id="secondary-monitor">
+    <template>
+        <style include="lumo-color">
+            :host {
+                height: 100vh;
+            }
+
+            .container {
+                display: flex;
+                height: calc(100vh - 60px); /* Header is 60 px high */
+            }
+
+            .map {
+                flex-grow: 1;
+            }
+
+            #sidebar {
+                flex: 0 0 25%;
+                min-width: 400px;
+                box-shadow: -5px 0 5px var(--lumo-shade-30pct);
+            }
+        </style>
+        <application-header id="header" monitor-number="2"></application-header>
+        <div class="container">
+            <div class="map">
+
+            </div>
+            <accordion-element id="sidebar"></accordion-element>
+        </div>
+    </template>
+
+    <script>
+        class SecondaryMonitor extends Polymer.Element {
+            static get is() {
+                return 'secondary-monitor';
+            }
+        }
+
+        customElements.define(SecondaryMonitor.is, SecondaryMonitor);
+    </script>
+</dom-module>

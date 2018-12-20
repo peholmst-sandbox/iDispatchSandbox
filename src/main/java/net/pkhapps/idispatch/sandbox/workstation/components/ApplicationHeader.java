@@ -29,10 +29,10 @@ public class ApplicationHeader extends PolymerTemplate<ApplicationHeader.Model> 
         void setLanguage(String language);
     }
 
-    public ApplicationHeader(int monitorNumber) {
+    public void setMonitorNumber(int monitorNumber) {
         getModel().setMonitorNumber(monitorNumber);
     }
-    
+
     public void setAvatar(@Nonnull URI avatarUri) {
         Objects.requireNonNull(avatarUri, "avatarUri must not be null");
         getModel().setAvatarUri(avatarUri.toString());
