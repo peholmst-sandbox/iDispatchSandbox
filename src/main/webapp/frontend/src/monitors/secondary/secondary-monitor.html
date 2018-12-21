@@ -1,11 +1,16 @@
+<!-- Element imports -->
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
 <link rel="import" href="../../components/application-header/application-header.html">
 <link rel="import" href="../../components/accordion/accordion-element.html">
 <link rel="import" href="../../components/accordion/accordion-item.html">
 
+<!-- Style imports -->
+<link rel="import" href="../../../styles/monitors/secondary/secondary-monitor-styles.html">
+
 <dom-module id="secondary-monitor">
     <template>
-        <style include="lumo-color">
+        <style include="lumo-color secondary-monitor-styles">
             :host {
                 height: 100vh;
             }
@@ -22,7 +27,7 @@
             #sidebar {
                 flex: 0 0 25%;
                 min-width: 400px;
-                box-shadow: -5px 0 5px var(--lumo-shade-30pct);
+                box-shadow: -2px 0 5px var(--lumo-shade-30pct);
             }
         </style>
         <application-header id="header" monitor-number="2"></application-header>

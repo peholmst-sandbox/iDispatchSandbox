@@ -1,4 +1,4 @@
-package net.pkhapps.idispatch.sandbox.workstation;
+package net.pkhapps.idispatch.sandbox.workstation.dummy;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
