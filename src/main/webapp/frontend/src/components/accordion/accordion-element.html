@@ -8,14 +8,6 @@
                 display: flex;
                 flex-direction: column;
             }
-
-            #itemsSlot::slotted(:first-child) {
-                border-top: none;
-            }
-
-            #itemsSlot::slotted(*) {
-                border-top: 1px solid var(--lumo-shade-20pct);
-            }
         </style>
         <slot id="itemsSlot"></slot>
     </template>

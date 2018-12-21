@@ -28,14 +28,15 @@
 
                 padding: 0 10px;
                 margin: 0;
-                min-height: 40px;
+                min-height: 39px;
+                border-bottom: 1px solid var(--lumo-shade-20pct);
 
                 cursor: pointer;
             }
 
-            :host(.expanded) .accordion-item-caption {
-                min-height: 39px;
-                border-bottom: 1px solid var(--lumo-shade-20pct);
+            :host(not .expanded :last-child) .accordion-item-caption {
+                min-height: 40px;
+                border-bottom: none;
             }
 
             .accordion-item-content {
@@ -45,6 +46,7 @@
             :host(.expanded) .accordion-item-content {
                 display: flex;
                 flex-grow: 1;
+                border-bottom: 1px solid var(--lumo-shade-20pct);
             }
         </style>
         <div class="accordion-item-caption" on-click="handleCaptionClick">[[caption]]
