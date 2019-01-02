@@ -1,24 +1,20 @@
 package net.pkhapps.idispatch.sandbox.workstation.components;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.ironlist.IronList;
+import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
-import com.vaadin.flow.data.provider.Query;
-import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
 
-@Tag("card-list")
-@HtmlImport("frontend://src/components/card-list/card-list.html")
-public class CardList<C extends Component, T> extends Component {
+public class CardList<C extends Component, T> extends Composite<IronList<T>> implements HasDataProvider<T> {
 
     private final CardFactory<C, T> cardFactory;
     private final CardUpdater<C, T> cardUpdater;
 
-    private DataProvider<T, ?> dataProvider;
-    private Registration dataProviderRegistration;
 
     public CardList(@Nonnull CardFactory<C, T> cardFactory,
                     @Nonnull CardUpdater<C, T> cardUpdater) {
@@ -26,28 +22,18 @@ public class CardList<C extends Component, T> extends Component {
         this.cardUpdater = cardUpdater;
     }
 
-    public void setDataProvider(DataProvider<T, ?> dataProvider) {
-        if (this.dataProviderRegistration != null) {
-            this.dataProviderRegistration.remove();
-        }
-
-        this.dataProvider = dataProvider;
-        this.dataProviderRegistration = dataProvider.addDataProviderListener(event -> refreshAll());
-
-        refreshAll();
+    @Override
+    protected IronList<T> initContent() {
+        var ironList = new IronList<T>();
+        ironList.setRenderer(new ComponentRenderer<>(cardFactory::createCard));
+        ironList.getStyle().set("padding", "10px");
+        return ironList;
     }
 
-    // TODO Sorting
-    // TODO Make container lazy
-    // TODO Smart card updates
+    @Override
+    public void setDataProvider(DataProvider<T, ?> dataProvider) {
+        getContent().setDataProvider(dataProvider);
 
-    private void refreshAll() {
-        getElement().removeAllChildren();
-        if (dataProvider != null) {
-            dataProvider
-                    .fetch(new Query<>()).map(cardFactory::createCard)
-                    .forEach(card -> getElement().appendChild(card.getElement()));
-        }
     }
 
     @Nonnull
