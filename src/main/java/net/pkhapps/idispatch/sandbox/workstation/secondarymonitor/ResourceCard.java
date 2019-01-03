@@ -28,8 +28,8 @@ public class ResourceCard extends PolymerTemplate<ResourceCard.Model> {
         @Encode(value = StatusIdEncoder.class, path = "id")
         void setStatus(Status status);
 
-        //@Encode(value = InstantEncoder.class, path = "lastCheckIn")
-        //void setLastCheckIn(Instant lastCheckIn);
+        @Encode(value = InstantEncoder.class)
+        void setLastCheckIn(Instant lastCheckIn);
     }
 
     public ResourceCard(@Nonnull Resource resource) {
@@ -41,7 +41,7 @@ public class ResourceCard extends PolymerTemplate<ResourceCard.Model> {
 
         getModel().setCallSign(resource.getCallSign());
         getModel().setStatus(resource.getStatus());
-        // getModel().setLastCheckIn(resource.getLastCheckIn());
+        getModel().setLastCheckIn(resource.getLastCheckIn());
     }
 
     @Nonnull

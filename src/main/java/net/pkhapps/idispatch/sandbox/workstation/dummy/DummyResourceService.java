@@ -14,6 +14,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class DummyResourceService implements ResourceLookupService {
     private static final DummyResourceService INSTANCE = new DummyResourceService();
 
     private final Map<ResourceId, Resource> resourceMap = new ConcurrentHashMap<>();
+    private final Random rnd = new Random();
 
     private DummyResourceService() {
         addResource("RVS2");
@@ -179,7 +181,7 @@ public class DummyResourceService implements ResourceLookupService {
                 .id(new ResourceId(resourceMap.size() + 1))
                 .callSign(callSign)
                 .status(DummyStatusService.getInstance().random())
-                .lastCheckIn(Instant.now())
+                .lastCheckIn(Instant.now().minusSeconds(rnd.nextInt(2 * 24 * 60 * 60)))
                 .build();
         resourceMap.put(resource.getId(), resource);
     }

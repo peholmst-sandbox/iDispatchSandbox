@@ -3,7 +3,7 @@
 
 <dom-module id="time-since">
     <template>
-        [[_timeSince]]
+        [[timeSince]]
     </template>
     <script>
         class TimeSince extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
@@ -17,52 +17,49 @@
                         value: 'sv'
                     },
                     time: {
-                        type: Date,
-                        observer(newValue, oldValue) {
-                            this.updateTimeSince();
-                        }
+                        type: Date
                     },
-                    _timeSince: {
+                    now: {
+                        type: Date
+                    },
+                    timeSince: {
                         type: String,
-                        readOnly: true
+                        computed: 'computeTimeSince(localize, time, now)'
                     }
                 };
             }
 
             updateTimeSince() {
-                if (this.time === null) {
-                    this._set_timeSince("");
-                } else {
-                    this._set_timeSince(this.getTimeSince());
-                }
+                this.now = new Date();
             }
 
-            getTimeSince() {
-                let seconds = Math.floor((new Date() - this.time) / 1000);
+            computeTimeSince(localize, time, now) {
+                let seconds = Math.floor((now - time) / 1000);
                 if (seconds < 60) {
-                    return this.localize('just-now');
+                    return localize('just-now');
                 }
                 let minutes = Math.floor(seconds / 60);
                 if (minutes < 2) {
-                    return this.localize('minute-ago');
+                    return localize('minute-ago');
                 } else if (minutes < 60) {
-                    return this.localize('minutes-ago', 'minutes', minutes);
+                    return localize('minutes-ago', 'minutes', minutes);
                 }
                 let hours = Math.floor(minutes / 60);
                 if (hours < 2) {
-                    return this.localize('hour-ago');
+                    return localize('hour-ago');
                 } else if (hours < 24) {
-                    return this.localize('hours-ago', 'hours', hours);
+                    return localize('hours-ago', 'hours', hours);
                 }
                 let days = Math.floor(hours / 24);
                 if (days < 2) {
-                    return this.localize('day-ago');
+                    return localize('day-ago');
                 } else {
-                    return this.localize('days-ago', 'days', days);
+                    return localize('days-ago', 'days', days);
                 }
             }
 
             connectedCallback() {
+                this.loadResources(this.resolveUrl("locales.json"));
                 this.updateTimeSince();
                 this._timerHandle = window.timeSinceTimer.registerCallback(this.updateTimeSince.bind(this));
             }
@@ -99,17 +96,16 @@
             }
 
             registerCallback(callback) {
-                console.log(`Registering callback ${callback}`);
                 this.callbacks.push(callback);
+                let globalTimer = this;
                 return {
                     remove() {
-                        GlobalTimer.this.removeCallback(callback);
+                        globalTimer.removeCallback(callback);
                     }
                 };
             }
 
             removeCallback(callback) {
-                console.log(`Removing callback ${callback}`);
                 this.callbacks = this.callbacks.filter(v => v !== callback);
             }
 

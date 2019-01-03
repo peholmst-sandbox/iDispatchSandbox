@@ -43,12 +43,17 @@
             .status.light {
                 color: var(--lumo-tint-90pct);
             }
+
+            .lastCheckIn {
+                font-size: 12px;
+                margin-left: 10px;
+            }
         </style>
 
         <div class="header">
             [[callSign]]
             <div class="status" id="status">[[status.nameSwe]]</div>
-            <time-since time="[[lastCheckIn]]"></time-since>
+            <time-since class="lastCheckIn" time="[[lastCheckInDate]]"></time-since>
         </div>
     </template>
 
@@ -60,13 +65,27 @@
 
             static get properties() {
                 return {
+                    callSign: {
+                        type: Date
+                    },
                     status: {
                         type: Object,
                         observer(newValue, oldValue) {
                             this._updateStatusColor();
                         }
+                    },
+                    lastCheckIn: {
+                        type: String
+                    },
+                    lastCheckInDate: {
+                        type: Date,
+                        computed: 'parseDateString(lastCheckIn)'
                     }
                 };
+            }
+
+            parseDateString(date) {
+                return new Date(date);
             }
 
             _updateStatusColor() {
