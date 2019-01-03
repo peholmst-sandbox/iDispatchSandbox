@@ -1,0 +1,20 @@
+{
+  "sv": {
+    "just-now": "Just nu",
+    "minute-ago": "1 minut sedan",
+    "minutes-ago": "{minutes} minuter sedan",
+    "hour-ago": "1 timme sedan",
+    "hours-ago": "{hours} timmar sedan",
+    "day-ago": "1 dag sedan",
+    "days-ago": "{days} dagar sedan"
+  },
+  "fi": {
+    "just-now": "Juuri nyt",
+    "minute-ago": "1 minuutti sitten",
+    "minutes-ago": "{minutes} minuuttia sitten",
+    "hour-ago": "1 tunti sitten",
+    "hours-ago": "{hours} tuntia sitten",
+    "day-ago": "1 päivä sitten",
+    "days-ago": "{days} päivää sitten"
+  }
+}

@@ -5,11 +5,13 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import net.pkhapps.idispatch.sandbox.workstation.encoders.InstantEncoder;
 import net.pkhapps.idispatch.sandbox.workstation.encoders.StatusIdEncoder;
 import net.pkhapps.idispatch.sandbox.workstation.service.dto.Resource;
 import net.pkhapps.idispatch.sandbox.workstation.service.dto.Status;
 
 import javax.annotation.Nonnull;
+import java.time.Instant;
 import java.util.Objects;
 
 @Tag("resource-card")
@@ -25,6 +27,9 @@ public class ResourceCard extends PolymerTemplate<ResourceCard.Model> {
 
         @Encode(value = StatusIdEncoder.class, path = "id")
         void setStatus(Status status);
+
+        //@Encode(value = InstantEncoder.class, path = "lastCheckIn")
+        //void setLastCheckIn(Instant lastCheckIn);
     }
 
     public ResourceCard(@Nonnull Resource resource) {
@@ -36,6 +41,7 @@ public class ResourceCard extends PolymerTemplate<ResourceCard.Model> {
 
         getModel().setCallSign(resource.getCallSign());
         getModel().setStatus(resource.getStatus());
+        // getModel().setLastCheckIn(resource.getLastCheckIn());
     }
 
     @Nonnull

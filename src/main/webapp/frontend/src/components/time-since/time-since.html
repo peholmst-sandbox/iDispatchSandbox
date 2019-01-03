@@ -1,0 +1,128 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/app-localize-behavior/app-localize-behavior.html">
+
+<dom-module id="time-since">
+    <template>
+        [[_timeSince]]
+    </template>
+    <script>
+        class TimeSince extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+            static get is() {
+                return 'time-since';
+            }
+
+            static get properties() {
+                return {
+                    language: {
+                        value: 'sv'
+                    },
+                    time: {
+                        type: Date,
+                        observer(newValue, oldValue) {
+                            this.updateTimeSince();
+                        }
+                    },
+                    _timeSince: {
+                        type: String,
+                        readOnly: true
+                    }
+                };
+            }
+
+            updateTimeSince() {
+                if (this.time === null) {
+                    this._set_timeSince("");
+                } else {
+                    this._set_timeSince(this.getTimeSince());
+                }
+            }
+
+            getTimeSince() {
+                let seconds = Math.floor((new Date() - this.time) / 1000);
+                if (seconds < 60) {
+                    return this.localize('just-now');
+                }
+                let minutes = Math.floor(seconds / 60);
+                if (minutes < 2) {
+                    return this.localize('minute-ago');
+                } else if (minutes < 60) {
+                    return this.localize('minutes-ago', 'minutes', minutes);
+                }
+                let hours = Math.floor(minutes / 60);
+                if (hours < 2) {
+                    return this.localize('hour-ago');
+                } else if (hours < 24) {
+                    return this.localize('hours-ago', 'hours', hours);
+                }
+                let days = Math.floor(hours / 24);
+                if (days < 2) {
+                    return this.localize('day-ago');
+                } else {
+                    return this.localize('days-ago', 'days', days);
+                }
+            }
+
+            connectedCallback() {
+                this.updateTimeSince();
+                this._timerHandle = window.timeSinceTimer.registerCallback(this.updateTimeSince.bind(this));
+            }
+
+            disconnectedCallback() {
+                if (this._timerHandle) {
+                    this._timerHandle.remove();
+                    this._timerHandle = null;
+                }
+            }
+        }
+
+        customElements.define(TimeSince.is, TimeSince);
+
+        class GlobalTimer {
+            constructor() {
+                this.callbacks = [];
+                this.id = null;
+            }
+
+            start() {
+                if (!this.id) {
+                    console.log('Starting GlobalTimer');
+                    this.id = setInterval(this.notifyCallbacks.bind(this), 5000);
+                }
+            }
+
+            stop() {
+                if (this.id) {
+                    console.log('Stopping GlobalTimer');
+                    clearInterval(this.id);
+                    this.id = null;
+                }
+            }
+
+            registerCallback(callback) {
+                console.log(`Registering callback ${callback}`);
+                this.callbacks.push(callback);
+                return {
+                    remove() {
+                        GlobalTimer.this.removeCallback(callback);
+                    }
+                };
+            }
+
+            removeCallback(callback) {
+                console.log(`Removing callback ${callback}`);
+                this.callbacks = this.callbacks.filter(v => v !== callback);
+            }
+
+            notifyCallbacks() {
+                for (let i in this.callbacks) {
+                    this.callbacks[i]();
+                }
+            }
+        }
+
+        if (!window.timeSinceTimer) {
+            window.timeSinceTimer = new GlobalTimer();
+            window.timeSinceTimer.start();
+        }
+    </script>
+</dom-module>

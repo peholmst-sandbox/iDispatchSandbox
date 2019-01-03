@@ -1,8 +1,9 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../components/time-since/time-since.html">
 
 <dom-module id="resource-card">
     <template>
-        <style include="lumo-color lumo-typography">
+        <style include="lumo-color">
             :host {
                 display: flex;
                 flex-direction: column;
@@ -16,8 +17,7 @@
 
             .header {
                 font-size: 18px;
-                font-weight: 500;
-                text-shadow: 1px 1px var(--lumo-tint-30pct);
+                font-weight: 400;
 
                 padding: 0;
                 margin: 0;
@@ -26,10 +26,29 @@
                 justify-content: flex-start;
                 align-items: center;
             }
+
+            .status {
+                font-size: 10px;
+                font-weight: 500;
+                text-transform: uppercase;
+                text-shadow: none;
+
+                padding: 3px 5px;
+                margin-left: 10px;
+                border-radius: 5px;
+
+                display: inline;
+            }
+
+            .status.light {
+                color: var(--lumo-tint-90pct);
+            }
         </style>
 
         <div class="header">
-            [[callSign]] <div class="status">[[status]]</div>
+            [[callSign]]
+            <div class="status" id="status">[[status.nameSwe]]</div>
+            <time-since time="[[lastCheckIn]]"></time-since>
         </div>
     </template>
 
@@ -37,6 +56,35 @@
         class ResourceCard extends Polymer.Element {
             static get is() {
                 return 'resource-card';
+            }
+
+            static get properties() {
+                return {
+                    status: {
+                        type: Object,
+                        observer(newValue, oldValue) {
+                            this._updateStatusColor();
+                        }
+                    }
+                };
+            }
+
+            _updateStatusColor() {
+                let color = this.status.primaryColor;
+                this.style.backgroundColor = color + '1a';
+                this.$.status.style.backgroundColor = color;
+                this.$.status.classList.toggle('light', ResourceCard._isDark(color));
+            }
+
+            // TODO Add sanitation for color property to make the code more stable
+
+            static _isDark(color) {
+                // Assumes the color starts with '#'
+                let r = parseInt(color.substr(1, 2), 16);
+                let g = parseInt(color.substr(3, 2), 16);
+                let b = parseInt(color.substr(5, 2), 16);
+                let yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+                return yiq < 145;
             }
         }
 
