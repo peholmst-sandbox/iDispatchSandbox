@@ -26,17 +26,17 @@ public class DummyStatusService implements StatusLookupService {
     private final Random rnd = new Random();
 
     private DummyStatusService() {
-        addStatus("reserverad", "varattu", "#ffff00");
-        addStatus("alarmerad", "hälytetty", "#ff5f5f");
-        addStatus("på väg", "matkalla", "#00c3ff");
-        addStatus("vid objektet", "kohteessa", "#0064ff");
-        addStatus("ledig på radio", "vapaa radiolla", "#c8ff3c");
-        addStatus("ledig på stationen", "vapaa asemalla", "#64ff00");
-        addStatus("ur bruk", "ei hälytettävissä", "#ffa500");
+        addStatus("reserverad", "varattu", "#ffff00", false);
+        addStatus("alarmerad", "hälytetty", "#ff5f5f", false);
+        addStatus("på väg", "matkalla", "#00c3ff", true);
+        addStatus("vid objektet", "kohteessa", "#0064ff", true);
+        addStatus("ledig på radio", "vapaa radiolla", "#c8ff3c", true);
+        addStatus("ledig på stationen", "vapaa asemalla", "#64ff00", true);
+        addStatus("ur bruk", "ei hälytettävissä", "#ffa500", true);
     }
 
-    private void addStatus(String nameSwe, String nameFin, String primaryColor) {
-        var status = new Status(new StatusId(statusMap.size() + 1), nameSwe, nameFin, primaryColor);
+    private void addStatus(String nameSwe, String nameFin, String primaryColor, boolean userAssignable) {
+        var status = new Status(new StatusId(statusMap.size() + 1), nameSwe, nameFin, primaryColor, userAssignable);
         statusMap.put(status.getId(), status);
     }
 

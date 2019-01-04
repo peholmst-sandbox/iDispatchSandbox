@@ -1,4 +1,6 @@
 <link rel="import" href="../../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../../bower_components/vaadin-context-menu/vaadin-context-menu.html">
+
 <link rel="import" href="../../../components/time-since/time-since.html">
 
 <dom-module id="resource-card">
@@ -38,6 +40,13 @@
                 border-radius: 5px;
 
                 display: inline;
+
+                cursor: pointer;
+            }
+
+            .status:hover {
+                padding: 2px 4px;
+                border: 1px solid var(--lumo-shade-50pct);
             }
 
             .status.light {

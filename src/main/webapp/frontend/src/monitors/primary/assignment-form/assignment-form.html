@@ -1,0 +1,127 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../../../bower_components/vaadin-text-field/vaadin-text-area.html">
+<link rel="import" href="../../../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../../../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="../../../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../../bower_components/vaadin-icons/vaadin-icons.html">
+
+<dom-module id="assignment-form">
+    <template>
+        <style include="lumo-color">
+            :host {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 20px;
+                font-weight: 300;
+                color: var(--lumo-header-text-color);
+
+                padding: 0;
+                margin-top: 20px;
+                margin-bottom: 0;
+
+                border-bottom: 1px solid var(--lumo-shade-60pct);
+            }
+
+            h2:first-child {
+                margin-top: 0;
+            }
+
+            .form {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-column-gap: 10px;
+                grid-row-gap: 0px;
+            }
+
+            .form h2 {
+                grid-column: 1 / span 4;
+            }
+
+            vaadin-grid {
+                margin-top: 10px;
+            }
+
+            .button-bar {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+
+        <div class="form">
+            <h2>Identifikationsuppgifter</h2>
+
+            <vaadin-text-field label="Uppdrags-ID" readonly value="2019-1"></vaadin-text-field>
+            <vaadin-text-field label="Påbörjat" readonly value="4.1.2019 16:44:12"></vaadin-text-field>
+            <vaadin-text-field label="Status" readonly value="väntar på larm"></vaadin-text-field>
+            <vaadin-text-field label="Avslutat" readonly value=""></vaadin-text-field>
+
+            <h2>Händelseplats</h2>
+            <vaadin-text-field label="Kommun" required></vaadin-text-field>
+            <vaadin-text-field label="Adress" style="grid-column: 2 / span 2"></vaadin-text-field>
+            <vaadin-text-field label="Nummer"></vaadin-text-field>
+
+            <vaadin-text-field label="Korsande väg" style="grid-column: 2 / span 2"></vaadin-text-field>
+
+            <vaadin-combo-box label="Koordinatsystem" style="grid-column: 1"></vaadin-combo-box>
+            <vaadin-text-field label="Nord-koordinat" placeholder="N" required></vaadin-text-field>
+            <vaadin-text-field label="Öst-koordinat" placeholder="E" required></vaadin-text-field>
+            <vaadin-button style="align-self: end">Visa på kartan</vaadin-button>
+
+            <h2>Uppgifter om händelsen</h2>
+            <vaadin-combo-box label="Uppdragskod" placeholder="Välj uppdragskod" required style="grid-column: 1 / span 2"></vaadin-combo-box>
+            <vaadin-combo-box label="Prioritet" placeholder="Välj prioritet" required></vaadin-combo-box>
+            <vaadin-text-area placeholder="Beskriv vad som har hänt" style="grid-column: 1 / span 4; max-height: 150px"></vaadin-text-area>
+
+            <h2>Uppgifter om anmälaren</h2>
+            <vaadin-text-field label="Namn" style="grid-column: 1 / span 2"></vaadin-text-field>
+            <vaadin-text-field label="Telefonnummer" style="grid-column: 3 / span 2"></vaadin-text-field>
+        </div>
+
+        <h2>Resurser</h2>
+        <vaadin-grid>
+            <vaadin-grid-column header="Resurs"></vaadin-grid-column>
+            <vaadin-grid-column header="Status"></vaadin-grid-column>
+            <vaadin-grid-column header="Senast ändrad"></vaadin-grid-column>
+        </vaadin-grid>
+        <div class="button-bar">
+            <div>
+                <vaadin-button theme="icon">
+                    <iron-icon icon="vaadin:plus-circle" slot="prefix"></iron-icon>
+                </vaadin-button>
+                <vaadin-button theme="icon">
+                    <iron-icon icon="vaadin:minus-circle" slot="prefix"></iron-icon>
+                </vaadin-button>
+            </div>
+            <div>
+                <vaadin-button>
+                    <iron-icon icon="vaadin:clock" slot="prefix"></iron-icon>
+                    Ställ i kö
+                </vaadin-button>
+                <vaadin-button theme="error">
+                    <iron-icon icon="vaadin:bell" slot="prefix"></iron-icon>
+                    Alarmera valda</vaadin-button>
+                <vaadin-button theme="error primary">
+                    <iron-icon icon="vaadin:bell" slot="prefix"></iron-icon>
+                    Alarmera alla</vaadin-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        class AssignmentForm extends Polymer.Element {
+            static get is() {
+                return 'assignment-form';
+            }
+        }
+
+        customElements.define(AssignmentForm.is, AssignmentForm);
+    </script>
+</dom-module>

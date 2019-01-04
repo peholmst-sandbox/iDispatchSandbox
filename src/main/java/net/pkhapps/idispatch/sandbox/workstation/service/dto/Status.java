@@ -17,4 +17,5 @@ public class Status implements Serializable {
     private final String nameSwe;
     private final String nameFin;
     private final String primaryColor;
+    private final boolean userAssignable;
 }

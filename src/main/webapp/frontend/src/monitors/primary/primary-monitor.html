@@ -1,5 +1,13 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../../../bower_components/vaadin-tabs/vaadin-tabs.html">
+<link rel="import" href="../../../bower_components/vaadin-split-layout/vaadin-split-layout.html">
+<link rel="import" href="../../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../../bower_components/vaadin-icons/vaadin-icons.html">
+
 <link rel="import" href="../../components/application-header/application-header.html">
+
+<link rel="import" href="assignment-form/assignment-form.html">
 
 <dom-module id="primary-monitor">
     <template>
@@ -12,9 +20,175 @@
                 display: flex;
                 height: calc(100vh - 60px); /* Header is 60 px high */
             }
+
+            .header {
+                display: flex;
+                flex-direction: row;
+                flex-shrink: 0;
+                justify-content: space-between;
+                align-items: center;
+
+                font-size: 20px;
+                font-weight: 300;
+                color: var(--lumo-header-text-color);
+
+                background-color: var(--lumo-shade-5pct);
+
+                padding: 0 10px;
+                margin: 0;
+                min-height: 39px;
+                border-bottom: 1px solid var(--lumo-shade-20pct);
+            }
+
+            .messages {
+                width: 300px;
+                box-shadow: 2px 0 5px var(--lumo-shade-30pct);
+
+                display: flex;
+                flex-direction: column;
+                flex-shrink: 0;
+            }
+
+            .messages .message-container {
+                display: block;
+                flex-grow: 1;
+                overflow-y: auto;
+
+                padding: 10px;
+            }
+
+            .messages .message {
+                box-shadow: 0 1px 5px var(--lumo-shade-30pct);
+                border-radius: 2px;
+
+                background-color: rgba(255, 216, 0, 0.1);
+
+                font-size: 14px;
+                font-weight: 300;
+
+                margin-bottom: 20px;
+            }
+
+            .messages .message .subject {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                background-color: rgba(255, 216, 0, 0.6);
+
+                font-size: 16px;
+                font-weight: 400;
+
+                padding: 3px 10px;
+            }
+
+            .messages .message .subject vaadin-button {
+                flex-shrink: 0;
+            }
+
+            .messages .message .text {
+                padding: 10px;
+            }
+
+            .messages .message .author {
+                display: flex;
+                align-items: center;
+
+                background-color: rgba(255, 216, 0, 0.3);
+
+                padding: 3px 10px;
+            }
+
+            .messages .message .author .avatar {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+            }
+
+            .messages .message .author .timestamp {
+                font-weight: 600;
+                font-size: 12px;
+
+                margin-left: 10px;
+            }
+
+            .main-split-layout {
+                flex-grow: 1;
+            }
         </style>
-        <application-header id="header" monitor-number="1"></application-header>
+        <application-header id="header" monitor-number="1">
+            <vaadin-button theme="success primary" slot="actions">
+                <iron-icon icon="vaadin:plus-circle" slot="prefix"></iron-icon>
+                Nytt Uppdrag
+            </vaadin-button>
+        </application-header>
         <div class="container">
+            <div class="messages">
+                <div class="header">
+                    Meddelanden
+                    <vaadin-button theme="contrast icon small">
+                        <iron-icon icon="vaadin:plus-circle"></iron-icon>
+                    </vaadin-button>
+                </div>
+                <div class="message-container">
+                    <div class="message">
+                        <div class="subject">
+                            Phasellus sed fringilla leo
+                            <vaadin-button theme="error icon small">
+                                <iron-icon icon="vaadin:minus-circle"></iron-icon>
+                            </vaadin-button>
+                        </div>
+                        <div class="text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec iaculis est.
+                            Suspendisse fermentum metus vitae interdum fermentum. Etiam imperdiet sed ante ut convallis.
+                            Aliquam eu maximus erat.
+                        </div>
+                        <div class="author">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/9d786241d0e257814fca8acca3554e86" title="Petter Holmström"/>
+                            <span class="timestamp" title="fredag 4 januari 2019 kl 16:10:02">5 minuter sedan</span>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="subject">
+                            Vivamus imperdiet diam quis dignissim blandit
+                            <vaadin-button theme="error icon small">
+                                <iron-icon icon="vaadin:minus-circle"></iron-icon>
+                            </vaadin-button>
+                        </div>
+                        <div class="text">
+                            Maecenas fermentum at neque eu rutrum. Aenean et ornare nibh.
+                            Nam eu porta sem, ac condimentum risus.
+                            Duis risus ligula, laoreet nec justo sed, rhoncus lacinia augue.
+                        </div>
+                        <div class="author">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/9d786241d0e257814fca8acca3554e86" title="Petter Holmström"/>
+                            <span class="timestamp" title="fredag 4 januari 2019 kl 15:50:21">25 minuter sedan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <vaadin-split-layout class="main-split-layout">
+                <div class="assignment-form-container">
+                    <assignment-form></assignment-form>
+                </div>
+                <vaadin-split-layout  orientation="vertical">
+                    <div style="height:60%">
+                        <vaadin-tabs theme="small">
+                            <vaadin-tab>Uppdrag</vaadin-tab>
+                            <vaadin-tab>Resurser</vaadin-tab>
+                            <vaadin-tab>Stationsplatser</vaadin-tab>
+                            <vaadin-tab>Karta</vaadin-tab>
+                        </vaadin-tabs>
+                    </div>
+                    <div>
+                        <vaadin-tabs theme="small">
+                            <vaadin-tab>Händelselogg</vaadin-tab>
+                            <vaadin-tab>Terminaler</vaadin-tab>
+                        </vaadin-tabs>
+                    </div>
+                </vaadin-split-layout>
+            </vaadin-split-layout>
         </div>
     </template>
 

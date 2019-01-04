@@ -107,8 +107,9 @@
         <div class="header">
             <div class="app-title">iDispatch Workstation <span>({{localize('monitor', 'number', monitorNumber)}})</span>
             </div>
+            <slot name="actions"></slot>
             <div class="statistics">
-                <h3>{{localize('assignments')}}</h3>
+                <h3>{{localize('assignments')}}:</h3>
                 <div class="item" id="assignmentsInProgress">
                     <span>[[assignmentsInProgress]]</span>
                     {{localize('in-progress')}}
